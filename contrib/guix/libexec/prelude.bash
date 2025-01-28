@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 export LC_ALL=C
 set -e -o pipefail
+set -x
 
 # shellcheck source=contrib/shell/realpath.bash
 source contrib/shell/realpath.bash
 
 # shellcheck source=contrib/shell/git-utils.bash
 source contrib/shell/git-utils.bash
+
+# Source guix profile from the runner home directory
+GUIX_PROFILE=/home/github-runner/.config/guix/current
+. "$GUIX_PROFILE/etc/profile"
+
+echo "Using the following guix command:"
+command -v guix
+guix describe
 
 ################
 # Required non-builtin commands should be invocable
@@ -48,9 +57,10 @@ fi
 ################
 # Execute "$@" in a pinned, possibly older version of Guix, for reproducibility
 # across time.
+
 time-machine() {
     # shellcheck disable=SC2086
-    guix time-machine --url=https://git.savannah.gnu.org/git/guix.git \
+    guix time-machine --url=https://github.com/fanquake/guix.git \
                       --commit=53396a22afc04536ddf75d8f82ad2eafa5082725 \
                       --cores="$JOBS" \
                       --keep-failed \
