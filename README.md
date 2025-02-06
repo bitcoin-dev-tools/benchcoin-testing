@@ -25,8 +25,11 @@ Below is an example flamegraph showing CPU utilization during IBD:
 
 ## How to use it
 
-1. Open a Pull Request against **this repo**
-2. Wait for the bot to comment on your PR after it's finished.
+1. Rebase/cherry-pick your changes on top of benchcoin/master
+2. Open a Pull Request against **this repo**
+3. Wait for the bot to comment on your PR after it's finished.
+
+See the [Contributing](#contributing) section for more details.
 
 ## How it works
 
@@ -114,6 +117,18 @@ The benchmarking peer on the runner is served blocks over the (real) "internet" 
 This seed peer is another Hetzner VPS in the same region, and its configuration can be found here: [nix-seed-node](https://github.com/bitcoin-dev-tools/nix-seed-node)
 
 ## Contributing
+
+### Benchmark an existing bitcoin/bitcoin PR
+
+This requires `just` be installed. If you don't have `just` installed you can run the commands in the [justfile](justfile) manually.
+
+1. Fork this repository (or bitcoin/bitcoin and add this as a remote)
+2. Create a new branch from benchcoin/master
+3. Run: `just pick-pr <number>` to cherry-pick commits from the PR
+4. Push the branch
+5. Open a pull request **against this repo. NOT bitcoin/bitcoin**
+
+### Benchmark standalone/new changes
 
 1. Fork this repository (or bitcoin/bitcoin and add this as a remote)
 2. Make your changes to Bitcoin Core
