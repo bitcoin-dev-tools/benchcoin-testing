@@ -123,6 +123,21 @@ run_benchmark() {
   export -f clean_datadir
   export -f clean_logs
 
+  # Debug: Print all variables being used
+  echo "=== Debug Information ==="
+  echo "TMP_DATADIR: ${TMP_DATADIR}"
+  echo "ORIGINAL_DATADIR: ${ORIGINAL_DATADIR}"
+  echo "BINARIES_DIR: ${BINARIES_DIR}"
+  echo "base_commit: ${base_commit}"
+  echo "head_commit: ${head_commit}"
+  echo "results_file: ${results_file}"
+  echo "png_dir: ${png_dir}"
+  echo "chain: ${chain}"
+  echo "stop_at_height: ${stop_at_height}"
+  echo "connect_address: ${connect_address}"
+  echo "dbcache: ${dbcache}"
+  echo "\n"
+
   # Run hyperfine
   hyperfine \
     --shell=bash \
@@ -132,6 +147,7 @@ run_benchmark() {
     --cleanup "cleanup_run ${TMP_DATADIR}" \
     --runs 1 \
     --export-json "${results_file}" \
+    --show-output \
     --command-name "base (${base_commit})" \
     --command-name "head (${head_commit})" \
     "taskset -c 1 flamegraph --palette bitcoin --title 'bitcoind IBD@{commit}' -c 'record -F 101 --call-graph fp' -- taskset -c 2-15 ${BINARIES_DIR}/{commit}/bitcoind -datadir=${TMP_DATADIR} -connect=${connect_address} -daemon=0 -prune=10000 -chain=${chain} -stopatheight=${stop_at_height} -dbcache=${dbcache} -printtoconsole=0 -debug=coindb -debug=leveldb -debug=bench -debug=validation" \
