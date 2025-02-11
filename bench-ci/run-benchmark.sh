@@ -145,7 +145,7 @@ run_benchmark() {
     --prepare "prepare_run ${TMP_DATADIR} ${ORIGINAL_DATADIR}" \
     --conclude "conclude_run {commit} ${TMP_DATADIR} ${png_dir}" \
     --cleanup "cleanup_run ${TMP_DATADIR}" \
-    --runs 1 \
+    --runs 5 \
     --export-json "${results_file}" \
     --show-output \
     --command-name "base (${base_commit})" \
