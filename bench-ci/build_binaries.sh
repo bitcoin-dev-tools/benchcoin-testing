@@ -29,7 +29,7 @@ for build in "base:${base_commit}" "head:${head_commit}"; do
   HOSTS="${HOSTS:-x86_64-linux-gnu}" \
   SOURCES_PATH="${SOURCES_PATH:-/data/SOURCES_PATH}" \
   BASE_CACHE="${BASE_CACHE:-/data/BASE_CACHE}" \
-  taskset -c 0-15 bench-ci/guix/guix-build
+  taskset -c 2-15 chrt -f 1 bench-ci/guix/guix-build
 
   # Truncate commit hash to 12 characters
   short_commit=$(echo "$commit" | cut -c 1-12)
